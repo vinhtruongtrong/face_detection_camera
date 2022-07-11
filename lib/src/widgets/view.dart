@@ -76,7 +76,10 @@ class FaceDetectionCameraState extends State<FaceDetectionCamera> {
       flashMode: widget.flashMode,
       preset: widget.preset,
       customPaint: _customPaint,
-      onCapture: (file) {},
+      onCapture: widget.onCapture ??
+          (file) {
+            debugPrint('onCapture: ${file?.path}');
+          },
       onImage: processImage,
     );
   }
