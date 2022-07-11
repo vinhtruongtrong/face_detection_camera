@@ -107,7 +107,11 @@ class LiveCameraViewState extends State<LiveCameraView> {
   }
 
   Future _stopLiveFeed() async {
-    await _controller?.stopImageStream();
+    try {
+      await _controller?.stopImageStream();
+    } on CameraException catch (e) {
+      debugPrint('Error: ${e.code}\n${e.description}');
+    }
     await _controller?.dispose();
     _controller = null;
   }
