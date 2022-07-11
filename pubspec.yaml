@@ -1,0 +1,20 @@
+name: face_detection_camera
+description: A Flutter package detect face on camera.
+version: 0.0.1
+homepage: https://github.com/vinhtruongtrong/face_detection_camera
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+  flutter: ">=2.8.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  camera: ^0.9.8+1
+  google_mlkit_face_detection: ^0.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
