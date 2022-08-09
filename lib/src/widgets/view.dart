@@ -18,6 +18,49 @@ import '../res/enums.dart';
 import '../utils/utils.dart';
 import '../res/extensions.dart';
 
+import 'dart:async';
+
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
+
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+
+  final file = File('${(await getTemporaryDirectory()).path}/$path');
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
+}
+
+Future? faceDetectionCameraIntilizerClosure;
+
+class FaceDetectionCameraIntilizer {
+  static bool _isInit = false;
+  static Future<void> init() async {
+    if (_isInit) {
+      final faceDetector = FaceDetector(
+        options: FaceDetectorOptions(
+          enableContours: true,
+          enableClassification: true,
+          enableLandmarks: true,
+          enableTracking: true,
+          performanceMode: FaceDetectorMode.accurate,
+        ),
+      );
+      faceDetectionCameraIntilizerClosure ??= Future.microtask(() async {
+        final file = await getImageFileFromAssets('/images/sample.jpeg');
+        await faceDetector.processImage(InputImage.fromFile(file));
+        debugPrint('FaceDetectionCameraIntilizer init');
+        _isInit = true;
+        faceDetectionCameraIntilizerClosure = null;
+      });
+
+      await faceDetectionCameraIntilizerClosure;
+    }
+  }
+}
+
 class FaceDetectionCamera extends StatefulWidget {
   const FaceDetectionCamera({
     Key? key,
