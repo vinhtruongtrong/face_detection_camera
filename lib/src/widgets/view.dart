@@ -49,9 +49,9 @@ class FaceDetectionCameraIntilizer {
         ),
       );
       faceDetectionCameraIntilizerClosure ??= Future.microtask(() async {
-        final file = await getImageFileFromAssets('/images/sample.jpeg');
+        final file = await getImageFileFromAssets('assets/images/sample.jpeg');
         await faceDetector.processImage(InputImage.fromFile(file));
-        debugPrint('FaceDetectionCameraIntilizer init');
+        print('FaceDetectionCameraIntilizer init');
         _isInit = true;
         faceDetectionCameraIntilizerClosure = null;
       });
